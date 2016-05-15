@@ -1,95 +1,134 @@
 #%RAML 1.0
 ---
-title: first-class-scouting API
+title: first-class-tracking API
+mediaType: application/json
 baseUri: http://api.firstclassscouting.org/{version}
 version: v0.0.1
 
-/troops:
-  /{troopId}:
+securitySchemes:
+  oauth_2_0:
+    description: |
+      FirstClassTracking supports OAuth 2.0 for authenticating all API requests.
+    type: OAuth 2.0
+    describedBy:
+      headers:
+        Authorization:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use
+             with the "access_token" query string parameter.
+          type: string
+      queryParameters:
+        access_token:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use with
+             the "Authorization" header.
+          type: string
+      responses:
+        401:
+          description: |
+              Bad or expired token. This can happen if the user or Dropbox
+              revoked or expired an access token. To fix, re-authenticate
+              the user.
+        403:
+          description: |
+              Bad OAuth request (wrong consumer key, bad nonce, expired
+              timestamp...). Unfortunately, re-authenticating the user won't help here.
+    settings:
+      authorizationUri: https://www.firstclassscouting.org/1/oauth2/authorize
+      accessTokenUri: https://api.firstclassscouting.org/1/oauth2/token
+      authorizationGrants: [ authorization_code, refresh_token, 'urn:ietf:params:oauth:grant-type:saml2-bearer' ]
+
+types:
+
+  RecordUri:
+    usage: A uri for a referenced element
+    pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+
+  RecordId:
+    usage: An id of any record in the system
+    type: number
+
+  Record-base:
+    usage: Pattern for any record in the system
+    properties:
+      id:
+        type: RecordId
+        required: true
+      createdAt:
+        type: date
+        required: true
+      updatedAt:
+        type: date
+        required: true
+
+  Record-reference:
+    usage: Provide a reference to the endpoint containing details on the referenced record
+    properties:
+      id:
+        type: RecordId
+        required: true
+      uri:
+        type: RecordUri
+        required: true
+
+  UnitNumber:
+    usage: The identifying number given to a unit
+    type: number
+
+  UnitReference:
+    usage: A reference to a unit in the system
+    type: [Record-reference]
+
+  Unit:
+    usage: A unit in the system
+    type: [Record-base]
+    properties:
+      unitNumber:
+        type: UnitNumber
+        required: true
+      sponsor:
+        type: string
+        required: true
+      council:
+        type: string
+        required: true
+      participants:
+        type: ParticipantReference[]
+        required: true
+
+  ParticipantReference:
+    usage: A reference to a participant in the system
+    type: [Record-reference]
+
+  Participant:
+    usage: A scout in the system
+    type: [Record-base]
+    properties:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      level:
+        type: string
+      unit:
+        type: UnitReference
+
+/units:
+  get:
+    description: get all units in the system
+    responses:
+      200:
+        body:
+          type: Unit[]
+  /{unitId}:
     get:
-      description: get the troop with `troopId = {troopId}`
+      description: get the unit with `unitId == {unitId}`
       responses:
         200:
           body:
-            application/json:
-              schema: |
-                {
-                  "type": "object",
-                  "$schema": "http://json-schma.org/schema#",
-                  "id": "http://schemas.firstclassscouting.org/troop",
-                  "required": true,
-                  "properties": {
-                    "data": {
-                      "type": "object"
-                      "required": true,
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "required": true
-                        },
-                        "troop_number": {
-                          "type": "number",
-                          "required": true
-                        },
-                        "sponsor": {
-                          "type": "string",
-                          "required": true
-                        },
-                        "council": {
-                          "type": "string",
-                          "required": true
-                        },
-                        "scouts": {
-                          "type": "array",
-                          "required": true,
-                          "items": {
-                            "type": "object"
-                            "properties": {
-                              "id": "string"
-                              "url": "url"
-                            }
-                          }
-                        },
-                        "scouts_total": {
-                          "type": "number",
-                          "required": true
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "required": true
-                        },
-                        "updated_at": {
-                          "type": "string",
-                          "required": true
-                        }
-                      }
-                    }
-                  }
-                }
-              example: |
-                {
-                  "data": {
-                    "id": "ABEJD-FEJK",
-                    "troop_number": "160",
-                    "sponsor": "Lindon 4th Ward",
-                    "council": "Utah National Parks Council",
-                    "scouts": [
-                      {
-                        "id": "AAA-BBB", "DDD-CCC"
-                        "url": "https://api.firstclassscouting.org/v0.0.1/scouts/AAA-BBB"
-                      },
-                      {
-                        "id": "DDD-CCC",
-                        "url": "https://api.firstclassscouting.org/v0.0.1/scouts/DDD-CCC"
-                      }
-                     ],
-                    "scouts_total": 2,
-                    "created_at": "2014-10-08T21:40:49Z",
-                    "updated_at": "2016-05-08T20:22:35Z"
-                  },
-                  "success": true,
-                  "status": 200
-                }
+            type: Unit
         404:
           body:
             application/json:
@@ -97,37 +136,50 @@ version: v0.0.1
                 {
                   "success": false,
                   "error": true,
-                  "message": "Troop not found"
+                  "message": "unit not found"
                 }
     post:
-      description: add a troop with `troopId = {troopId}`
+      description: add a unit with `unitId == {unitId}`
     put:
-      description: update a troop with `troopId = {troopId}`
+      description: update a unit with `unitId == {unitId}`
     delete:
-      description: delete a troop with `troopId = {troopId}`
+      description: delete a unit with `unitId == {unitId}`
 
-/scouts:
-  /{scout-id}:
+/participants:
+  get:
+    description: Get all the pariticipants in the system
+    responses:
+      200:
+        body:
+          application/json:
+            type: Participant[]
+  /{participantId}:
     get:
+      description: Get a participant with `participantId == participantId}`
+      responses:
+        200:
+          body:
+            application/json:
+              type: Participant
     post:
     put:
     delete:
 
 /users:
   get:
-  /{user-id}:
+  /{userId}:
     get:
     post:
     put:
     delete:
 
 /requirement-sets:
-  /{requirement-set-id}:
+  /{requirementSetId}:
     get:
     post:
     put:
     delete:
-    /{requirement-id}:
+    /{requirementId}:
       get:
       post:
       put:
