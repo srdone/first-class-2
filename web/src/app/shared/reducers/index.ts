@@ -1,0 +1,1 @@
+export {ParticipantsReducer} from './participant.reducer';

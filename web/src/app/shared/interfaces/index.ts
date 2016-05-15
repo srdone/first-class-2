@@ -1,0 +1,1 @@
+export {IParticipant} from './participant.interface';
