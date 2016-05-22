@@ -3,10 +3,16 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  '@ngrx': 'vendor/@ngrx'
 };
 
 /** User packages configuration. */
 const packages: any = {
+  '@ngrx/store': {
+    format: 'cjs',
+    defaultExtension: 'js',
+    main: 'index.js'
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

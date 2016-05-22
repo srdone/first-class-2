@@ -1,2 +1,3 @@
-export {ParticipantsReducer} from './reducers';
-export {IParticipant} from './interfaces';
+export * from './reducers/index';
+export * from './interfaces/index';
+export * from './utilities/index';

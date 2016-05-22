@@ -1,1 +1,2 @@
-export {ParticipantsReducer} from './participant.reducer';
+export * from './participants.reducer';
+export * from './selected-participant.reducer';
