@@ -1,0 +1,8 @@
+<StackLayout>
+  <Label [text]="title" textWrap="true"></Label>
+  <Button text="List" [nsRouterLink]="['/scout-list']"></Button>
+  <Button text="Add Scout" [nsRouterLink]="['/add-scout']" pageTransition="flip"></Button>
+  <StackLayout>
+    <router-outlet></router-outlet>
+  </StackLayout>
+</StackLayout>
