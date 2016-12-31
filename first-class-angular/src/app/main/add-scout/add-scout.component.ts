@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-add-scout',
+  selector: 'fcs-add-scout',
   templateUrl: './add-scout.component.html',
   styleUrls: ['./add-scout.component.css']
 })

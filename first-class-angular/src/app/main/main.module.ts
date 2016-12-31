@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { AddScoutComponent } from './add-scout';
 import { MainComponent } from './main';
@@ -27,6 +28,7 @@ const routes: Routes = [
     ScoutListComponent
   ],
   imports: [
+    CommonModule,
     RouterModule.forChild(routes)
   ],
   exports: [

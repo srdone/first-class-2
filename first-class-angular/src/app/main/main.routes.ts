@@ -10,7 +10,7 @@ export const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
-      {path: '', redirectTo: 'scout-list'},
+      {path: '', pathMatch: 'full', redirectTo: 'scout-list'},
       {path: 'scout-list', component: ScoutListComponent},
       {path: 'scout/:id', component: ScoutDetailComponent},
       {path: 'add-scout', component: AddScoutComponent}

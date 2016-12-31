@@ -1,3 +1,6 @@
 <p>
   scout-list works!
 </p>
+<ul>
+  <li *ngFor="let scout of scouts$ | async">{{scout.name.first}} <button (click)="deleteScout(scout.id)">X</button></li>
+</ul>

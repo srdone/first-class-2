@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found';
 import { routes } from './app.routes';
 
+import { CoreModule } from './core';
 import { MainModule } from './main';
 
 @NgModule({
@@ -19,8 +20,9 @@ import { MainModule } from './main';
     BrowserModule,
     FormsModule,
     HttpModule,
-    MainModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    CoreModule,
+    MainModule
   ],
   providers: [],
   bootstrap: [AppComponent]
