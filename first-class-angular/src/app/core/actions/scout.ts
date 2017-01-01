@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 import { Scout } from '../models';
-import { type } from '../util';
+import { actionType } from '../util/action-type';
 
 export const ActionTypes = {
-  CREATE_SCOUT: type('[Scout] Add'),
-  DELETE_SCOUT: type('[Scout] Remove'),
-  UPDATE_SCOUT: type('[Scout] Update')
+  CREATE_SCOUT: actionType('[Scout] Add'),
+  DELETE_SCOUT: actionType('[Scout] Remove'),
+  UPDATE_SCOUT: actionType('[Scout] Update')
 }
 
 export class CreateScoutAction implements Action {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddScoutComponent } from './add-scout';
 import { MainComponent } from './main';
@@ -29,6 +30,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
   exports: [

@@ -1,3 +1,17 @@
 <p>
   add-scout works!
 </p>
+<form novalidate (ngSubmit)="onSubmit(newScout)" [formGroup]="newScout">
+  <div formGroupName="name">
+    <label>
+      <span>First Name</span>
+      <input type="text" placeholder="Enter first name" formControlName="first">
+    </label>
+    <label>
+      <span>Last Name</span>
+      <input type="text" placeholder="Enter last name" formControlName="last">
+    </label>
+  </div>
+  <button type="submit" [disabled]="newScout.invalid">Add Scout</button>
+  <button (click)="goBack()">Cancel</button>
+</form>
