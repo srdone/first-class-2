@@ -2,10 +2,10 @@ import { createSelector } from 'reselect';
 
 import { addItem, removeItem, updateItem } from '../util';
 
-import { Scout } from '../models';
+import { Scout, CollectionState } from '../models';
 import * as scout from '../actions/scout';
 
-export interface State {
+export interface State extends CollectionState {
   ids: string[],
   entities: { [id: string]: Scout },
   selectedScoutId: string | null;
