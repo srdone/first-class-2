@@ -5,6 +5,8 @@ import { ScoutListComponent } from './scout-list';
 import { ScoutDetailComponent } from './scout-detail';
 import { AddScoutComponent } from './add-scout';
 
+import { CanDeactivateGuard } from './guards';
+
 export const routes: Routes = [
   {
     path: '',
@@ -13,7 +15,7 @@ export const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: 'scout-list'},
       {path: 'scout-list', component: ScoutListComponent},
       {path: 'scout/:id', component: ScoutDetailComponent},
-      {path: 'add-scout', component: AddScoutComponent}
+      {path: 'add-scout', component: AddScoutComponent, canDeactivate: [CanDeactivateGuard]}
     ]
   }
 ]
