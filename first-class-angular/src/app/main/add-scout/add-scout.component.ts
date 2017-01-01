@@ -36,9 +36,7 @@ export class AddScoutComponent implements OnInit, CanComponentDeactivate {
   }
 
   canDeactivate(): Promise<boolean> | boolean {
-    console.log('calling canDeactivate');
     if (!this.newScout || this.saved || this.newScout.pristine) {
-      console.log('allowing deactivation', this.newScout, this.saved, this.newScout.pristine)
       return true;
     }
     return this.dialogService.confirm('You have unsaved changes. Are you sure you want to navigate away?');
