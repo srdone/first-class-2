@@ -10,6 +10,7 @@ import * as scout from '../../core/actions/scout';
 
 import { CanComponentDeactivate } from '../guards';
 import { DialogService } from '../../shared';
+import { ScoutActionCreator } from '../../core/actions';
 
 @Component({
   selector: 'fcs-add-scout',
@@ -24,7 +25,8 @@ export class AddScoutComponent implements OnInit, CanComponentDeactivate {
     private store: Store<fromRoot.State>,
     private router: Router,
     private dialogService: DialogService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private scoutActionCreator: ScoutActionCreator
   ) { }
 
   ngOnInit() {
@@ -46,7 +48,7 @@ export class AddScoutComponent implements OnInit, CanComponentDeactivate {
   onSubmit({value, valid}: { value: Scout, valid: boolean}) {
     value.id = uuid.v4();
     if (valid) {
-      this.store.dispatch(new scout.CreateScoutAction(value));
+      this.store.dispatch(this.scoutActionCreator.createScout(value));
       this.saved = true;
       this.router.navigate(['scout-list']);
     }

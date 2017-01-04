@@ -11,12 +11,17 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { rootReducer } from './reducers';
 
+import { ScoutActionCreator } from './actions';
+
 @NgModule({
   imports: [
     CommonModule,
     StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
+  ],
+  providers: [
+    ScoutActionCreator
   ]
 })
 export class CoreModule {

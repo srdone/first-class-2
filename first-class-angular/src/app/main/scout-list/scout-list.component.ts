@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../core/reducers';
 import * as scout from '../../core/actions/scout';
-import { Scout } from '../../core/models'
+import { Scout } from '../../core/models';
+import { ScoutActionCreator } from '../../core/actions';
 
 @Component({
   selector: 'fcs-scout-list',
@@ -14,14 +15,17 @@ import { Scout } from '../../core/models'
 export class ScoutListComponent implements OnInit {
   scouts$: Observable<Scout[]>;
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(
+    private store: Store<fromRoot.State>,
+    private scoutActionCreator: ScoutActionCreator
+  ) { }
 
   ngOnInit() {
     this.scouts$ = this.store.select(fromRoot.getAllScouts);
   }
 
   deleteScout(id: string) {
-    this.store.dispatch(new scout.DeleteScoutAction(id));
+    this.store.dispatch(this.scoutActionCreator.deleteScout(id));
   }
 
 }
