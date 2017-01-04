@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as uuid from 'node-uuid';
 
@@ -23,14 +23,15 @@ export class AddScoutComponent implements OnInit, CanComponentDeactivate {
   constructor(
     private store: Store<fromRoot.State>,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.newScout = new FormGroup({
-      name: new FormGroup({
-        first: new FormControl('', [Validators.required]),
-        last: new FormControl('', [Validators.required])
+    this.newScout = this.formBuilder.group({
+      name: this.formBuilder.group({
+        first: ['', Validators.required],
+        last: ['', Validators.required]
       })
     })
   }
