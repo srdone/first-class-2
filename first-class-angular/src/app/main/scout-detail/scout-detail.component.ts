@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { Scout } from '../../core/models/scout';
 
 @Component({
   selector: 'fcs-scout-detail',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scout-detail.component.css']
 })
 export class ScoutDetailComponent implements OnInit {
+  @Input('scout') scout: Scout;
 
   constructor() { }
 

@@ -6,7 +6,8 @@ import { actionType } from '../util/action-type';
 export const ActionTypes = {
   CREATE_SCOUT: actionType('[Scout] Add'),
   DELETE_SCOUT: actionType('[Scout] Remove'),
-  UPDATE_SCOUT: actionType('[Scout] Update')
+  UPDATE_SCOUT: actionType('[Scout] Update'),
+  SELECT_SCOUT: actionType('[Scout] Select')
 }
 
 class CreateScoutAction implements Action {
@@ -27,7 +28,17 @@ class UpdateScoutAction implements Action {
   constructor(public payload: Scout) {}
 }
 
-export type Actions = CreateScoutAction | DeleteScoutAction | UpdateScoutAction;
+class SelectScoutAction implements Action {
+  type = ActionTypes.SELECT_SCOUT;
+
+  constructor(public payload: string) {}
+}
+
+export type Actions = 
+  CreateScoutAction |
+  DeleteScoutAction |
+  UpdateScoutAction |
+  SelectScoutAction;
 
 @Injectable()
 export class ScoutActionCreator {
@@ -42,6 +53,10 @@ export class ScoutActionCreator {
 
   updateScout(payload: Scout) {
     return new UpdateScoutAction(payload);
+  }
+
+  selectScout(payload: string) {
+    return new SelectScoutAction(payload);
   }
 
 }

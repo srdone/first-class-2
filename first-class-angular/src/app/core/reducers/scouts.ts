@@ -31,6 +31,10 @@ export function reducer(state = initialState, action: scout.Actions): State {
       return updateItem(action.payload, state);
     }
 
+    case scout.ActionTypes.SELECT_SCOUT: {
+      return Object.assign({}, state, {selectedScoutId: action.payload});
+    }
+
     default:
       return state;
   }
