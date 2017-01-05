@@ -8,28 +8,19 @@ import { SharedModule } from '../shared';
 import { AddScoutComponent } from './add-scout';
 import { MainComponent } from './main';
 import { ScoutDetailComponent } from './scout-detail';
+import { ScoutDetailContainerComponent } from './scout-detail-container';
 import { ScoutListComponent } from './scout-list';
 
 import { CanDeactivateGuard } from './guards';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: MainComponent,
-    children: [
-      {path: '', pathMatch: 'full', redirectTo: 'scout-list'},
-      {path: 'scout-list', component: ScoutListComponent},
-      {path: 'add-scout', component: AddScoutComponent, canDeactivate: [CanDeactivateGuard]},
-      {path: 'scout/:id', component: ScoutDetailComponent}
-    ]
-  }
-]
+import { routes } from './main.routes';
 
 @NgModule({
   declarations: [
     AddScoutComponent,
     MainComponent,
     ScoutDetailComponent,
+    ScoutDetailContainerComponent,
     ScoutListComponent
   ],
   imports: [

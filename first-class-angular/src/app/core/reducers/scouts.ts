@@ -46,6 +46,8 @@ export const getIds = (state: State) => state.ids;
 
 export const getSelectedId = (state: State) => state.selectedScoutId;
 
+export const getById = (id: string) => createSelector(getEntities, (entities) => entities[id])
+
 export const getSelected = createSelector(
   getEntities,
   getSelectedId,

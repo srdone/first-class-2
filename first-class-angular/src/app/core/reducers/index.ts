@@ -8,6 +8,7 @@ import * as fromScouts from './scouts';
 
 export interface State {
   scouts: fromScouts.State;
+  router: fromRouter.RouterState;
 }
 
 const reducers = {
@@ -27,4 +28,5 @@ export const getScoutIds = createSelector(getScoutsState, fromScouts.getIds);
 export const getScoutEntities = createSelector(getScoutsState, fromScouts.getEntities);
 export const getSelectedScoutId = createSelector(getScoutsState, fromScouts.getSelectedId);
 export const getSelectedScout = createSelector(getScoutsState, fromScouts.getSelected);
+export const getScout = (id: string) => createSelector(getScoutsState, fromScouts.getById(id));
 export const getAllScouts = createSelector(getScoutsState, fromScouts.getAll);

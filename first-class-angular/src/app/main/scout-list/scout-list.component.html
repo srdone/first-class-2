@@ -3,10 +3,7 @@
 </p>
 <ul>
   <li *ngFor="let scout of scouts$ | async">
-    <a (click)="selectScout(scout.id)">{{scout.name.first}}</a>
+    <a [routerLink]="['/scout/', scout.id]">{{scout.name.first}}</a>
     <button (click)="deleteScout(scout.id)">X</button>
-    <div *ngIf="selectedScoutId === scout.id">
-      <fcs-scout-detail [scout]="scout"></fcs-scout-detail>
-    </div>
   </li>
 </ul>
