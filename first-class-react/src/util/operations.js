@@ -41,7 +41,7 @@ export const findIndexById = findIndexByProperty('id');
 export const replaceItemAtIndex = index =>
   array =>
   item =>
-  [...array.slice(0, index + 1), item, ...array.slice(index + 1, array.length)];
+  [...array.slice(0, index), item, ...array.slice(index + 1, array.length)];
 
 export const removeItemById = id =>
   array =>

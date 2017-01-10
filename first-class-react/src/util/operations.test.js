@@ -61,3 +61,6 @@ it('function: findIndexById: should find the index of the item with the matching
   expect(findIndexById('a')([{id: 'b'}, {id: 'a'}])).toEqual(1);
 });
 
+it('function: replaceItemAtIndex: should replace the item at index x in the array', function () {
+  expect(replaceItemAtIndex(1)([1, 2, 3])(5)).toEqual([1, 5, 3]);
+})
