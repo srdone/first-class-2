@@ -1,7 +1,5 @@
 import { compose, remove, findIndex } from 'lodash/fp';
 
-//experimenting with fp - yuck - need to understand compose much better than I do
-
 export const trace = tag => value => {
   console.log(tag, value);
   return value;
@@ -33,21 +31,26 @@ export const extend = originalObject =>
   updatedValue =>
   Object.assign({}, originalObject, {[updatedProperty]: updatedValue});
 
-export const findIndexByProperty = propName => itemId => array => findIndex({[propName]: itemId})(array);
+export const findIndexByProperty = propName =>
+  propertyValue =>
+  array =>
+  findIndex({[propName]: propertyValue})(array);
 
 export const findIndexById = findIndexByProperty('id');
 
-export const replaceItemAtIndex = index => array => item => [...array.slice(0, index + 1), item, ...array.slice(index + 1, array.length)];
+export const replaceItemAtIndex = index =>
+  array =>
+  item =>
+  [...array.slice(0, index + 1), item, ...array.slice(index + 1, array.length)];
 
 export const removeItemById = id =>
   array =>
   remove(matchesId(id))(array);
 
-//yuck - this reorders and creates an empty spot in the array
 export const replaceItemById = array =>
   itemId =>
   newItem => 
-  addItem(removeItemById(itemId))(newItem);
+  replaceItemAtIndex(findIndexById(itemId)(array))(array)(newItem);
 
 export const addStateItem = state =>
   arrayName =>
@@ -63,17 +66,9 @@ export const removeStateItem = state =>
     removeItemById(itemId)(getProperty(arrayName)(state))
   );
 
-// export const updateStateItem
-const array = [{id: 'a'}, {id: 'b'}];
-
-console.log(replaceItemAtIndex(1)([1, 2, 3])(100));
-console.log(removeItemById('a')([{id: 'a'}, {id: 'b'}]));
-console.log(replaceItemById(array)('a')('x'));
-console.log(addItem([])('id'));
-console.log(getProperty('ids')({ids: ['a']}));
-console.log(extend({a: 'a'})('a')('b'));
-console.log(equals('a')('a'));
-console.log(matchesId('a')({id: 'a'}));
-console.log(matches('id')({id: 'a'})('b'));
-console.log(addStateItem({items: []})('items')('id'));
-console.log(removeStateItem({items: [{id: 'a'}]})('items')('a'));
+export const updateStateItem = state =>
+  arrayName =>
+  updatedItem =>
+  extend(state)(arrayName)(
+    replaceItemById(getProperty(arrayName))(getId(updatedItem))(updatedItem)
+  );
